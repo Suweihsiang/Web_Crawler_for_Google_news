@@ -31,6 +31,13 @@ class Utils(QThread):
         pattern2=r'\d+/\d+/\d+'                                                 #the pattern of date,for example : YYYY/mm/dd
         camma=r'\W'                                                             #[^a-zA-Z0-9]
         count=0
+        jieba.set_dictionary('dict.txt.big.txt')                                #jieba used dictionary
+        jieba.load_userdict('user_dict.txt')
+        stops=[]                                                                #stop words
+        with open('stopword.txt','r',encoding='utf-8') as stopObj:
+            stopwords=stopObj.readlines()
+            for stopword in stopwords:
+                stops.append(stopword.rstrip())
         for href in hrefs:
             count+=1
             string=str(count)+'/'+str(len(hrefs))+' '+'  正在處理中'             #process status
@@ -189,15 +196,8 @@ class Utils(QThread):
                 fnDoc.add_paragraph(content)
                 fnDoc.save(path+fn)
                 self.tree_changed.emit(fn)                                      #send message to GUI tree
-                jieba.set_dictionary('dict.txt.big.txt')                        #cut the content using jieba
-                jieba.load_userdict('user_dict.txt')
-                words=jieba.cut(content)
+                words=jieba.cut(content)                                        #cut content using jieba
                 w=[]                                                            #the words in the content
-                stops=[]                                                        #stop words
-                with open('stopword.txt','r',encoding='utf-8') as stopObj:
-                    stopwords=stopObj.readlines()
-                    for stopword in stopwords:
-                        stops.append(stopword.rstrip())
                 for word in words:
                     if len(word)>1:
                         if word not in stops:
