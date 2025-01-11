@@ -33,6 +33,7 @@ class Utils(QThread):
         count=0
         jieba.set_dictionary('dict.txt.big.txt')                                #jieba used dictionary
         jieba.load_userdict('user_dict.txt')
+        jieba.load_userdict('word_list.txt')
         stops=[]                                                                #stop words
         with open('stopword.txt','r',encoding='utf-8') as stopObj:
             stopwords=stopObj.readlines()

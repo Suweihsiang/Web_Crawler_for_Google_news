@@ -15,9 +15,9 @@ for page in range(pages-1):
     for t in table:
         word_list.append(t.text.split(' ')[2])
     driver.find_element(By.LINK_TEXT,'下一頁').click()
-driver.quit()                                                                                                   #close all associated windoe
+driver.quit()                                                                                                   #close all associated window
 
-with open('word_list1.txt','w',encoding='utf-8') as f:
+with open('word_list.txt','w',encoding='utf-8') as f:
     for word in word_list:
         f.write(word)
         f.write('\n')
