@@ -147,6 +147,22 @@ class Utils(QThread):
                     time=re.search(pattern1,time).group()
                     content=''
                     paragraphs=etSoup.find('div','story').find_all('p')
+                elif href.find('cna')>-1:                                       #CNA news
+                    cnahtml=requests.get(href,headers=headers)
+                    cnaSoup=bs4.BeautifulSoup(cnahtml.text,'lxml')
+                    title=cnaSoup.find('h1').text
+                    time=cnaSoup.find('div','updatetime').find('span').text
+                    time=re.search(pattern2,time).group().replace('/','-')
+                    content=''
+                    paragraphs=cnaSoup.find('div','paragraph').find_all('p')
+                elif href.find('pts')>-1:                                       #PTS news
+                    ptshtml=requests.get(href,headers=headers)
+                    ptsSoup=bs4.BeautifulSoup(ptshtml.text,'lxml')
+                    title=ptsSoup.find('h1','article-title').text
+                    time=ptsSoup.find('time').text
+                    time=re.search(pattern1,time).group()
+                    content=''
+                    paragraphs=ptsSoup.find('div','post-article text-align-left').find_all('p')
                 else:                                                           #not in the lists of the news network
                     string=str(count)+'/'+str(len(hrefs))+' '+'無法產生word檔及文字雲'
                     self.status_changed.emit(string)
