@@ -2,7 +2,7 @@ import sys,os,threading
 from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon,QPixmap
 from PyQt5.QtWidgets import QApplication, QHeaderView, QLabel,QMainWindow,QTreeWidgetItem,QFileDialog
-from PyQt5.QtCore import Qt, pyqtSlot,QThread
+from PyQt5.QtCore import QDate, Qt, pyqtSlot,QThread
 
 from ui_MainWindow import Ui_MainWindow                             #GUI
 from utils import Utils                                             #web  crawler utils
@@ -65,6 +65,14 @@ class QmyMainWindow(QMainWindow):                                   #this class 
             label_width=self.ui.WordCloud.width()
             scaled_pix_wordcloud=self.pix_wordcloud.scaled(label_width-5,label_height-5)
             self.ui.WordCloud.setPixmap(scaled_pix_wordcloud)
+
+    @pyqtSlot(QDate)
+    def on_date_Start_dateChanged(self,date):                                       #if date_Start > date_End, set them the same
+        if(self.ui.date_End.date() < date): self.ui.date_End.setDate(date)
+
+    @pyqtSlot(QDate)
+    def on_date_End_dateChanged(self,date):                                         #if date_End < date_Start, set them the same
+        if(self.ui.date_Start.date() > date): self.ui.date_Start.setDate(date)
 
 
 #============================================自定義槽函數===================================================================
