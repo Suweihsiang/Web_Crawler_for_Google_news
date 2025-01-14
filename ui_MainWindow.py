@@ -10,21 +10,6 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from datetime import datetime
-#we write analysis report monthly and the sales figure is two month ago.
-current_datetime = datetime.now()
-if current_datetime.month - 2 <= 0 :
-    current_year = current_datetime.year - 1
-    current_month = (current_datetime.month - 2) + 12
-else :
-    current_year = current_datetime.year
-    current_month = current_datetime.month
-if current_month == 2 :
-    if current_year % 4 == 0 : last_date = 29
-    else : last_date = 28
-elif (current_month <= 7 and current_month % 2 == 1) or (current_month > 7 and current_month % 2 == 0) : last_date = 31
-else : last_date = 30
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -56,7 +41,6 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label_4, 1, 3, 1, 1)
         self.date_Start = QtWidgets.QDateEdit(self.groupBox)
         self.date_Start.setCalendarPopup(True)
-        self.date_Start.setDate(QtCore.QDate(current_year, current_month, 1))
         self.date_Start.setObjectName("date_Start")
         self.gridLayout.addWidget(self.date_Start, 0, 1, 1, 1)
         self.KeyWord = QtWidgets.QLineEdit(self.groupBox)
@@ -64,7 +48,6 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.KeyWord, 1, 1, 1, 2)
         self.date_End = QtWidgets.QDateEdit(self.groupBox)
         self.date_End.setCalendarPopup(True)
-        self.date_End.setDate(QtCore.QDate(current_year, current_month, last_date))
         self.date_End.setObjectName("date_End")
         self.gridLayout.addWidget(self.date_End, 0, 4, 1, 1)
         self.label = QtWidgets.QLabel(self.groupBox)

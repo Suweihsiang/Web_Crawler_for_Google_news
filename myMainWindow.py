@@ -3,9 +3,26 @@ from PyQt5 import QtGui
 from PyQt5.QtGui import QIcon,QPixmap
 from PyQt5.QtWidgets import QApplication, QHeaderView, QLabel,QMainWindow,QTreeWidgetItem,QFileDialog
 from PyQt5.QtCore import QDate, Qt, pyqtSlot,QThread
+from datetime import datetime
+
 
 from ui_MainWindow import Ui_MainWindow                             #GUI
 from utils import Utils                                             #web  crawler utils
+
+#we write analysis report monthly and the sales figure is two month ago.
+current_datetime = datetime.now()
+if current_datetime.month - 2 <= 0 :
+    current_year = current_datetime.year - 1
+    current_month = (current_datetime.month - 2) + 12
+else :
+    current_year = current_datetime.year
+    current_month = current_datetime.month
+if current_month == 2 :
+    if current_year % 4 == 0 : last_date = 29
+    else : last_date = 28
+elif (current_month <= 7 and current_month % 2 == 1) or (current_month > 7 and current_month % 2 == 0) : last_date = 31
+else : last_date = 30
+
 class QmyMainWindow(QMainWindow):                                   #this class is inherit from QMainWindow
     global curDirPath                                               #current directory path
     curDirPath=os.getcwd()
@@ -15,6 +32,8 @@ class QmyMainWindow(QMainWindow):                                   #this class 
         super().__init__(parent)                                    #use QMainWindow inititialize function 
         self.ui=Ui_MainWindow()                                     #construct GUI
         self.ui.setupUi(self)
+        self.ui.date_Start.setDate(QDate(current_year, current_month, 1))
+        self.ui.date_End.setDate(QDate(current_year, current_month, last_date))
         curDirName=os.path.basename(curDirPath)                     #current directory's name
         curFiles=os.listdir(curDirPath)                             #lists of files in the current directory
         self.setRootChild(curDirName,curDirPath,curFiles,curDirPath)#construct the tree of this directory
