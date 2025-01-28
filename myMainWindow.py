@@ -147,10 +147,3 @@ class QmyMainWindow(QMainWindow):                                   #this class 
         if not self.pix_wordcloud.isNull():
             scaled_pix_wordcloud=self.pix_wordcloud.scaled(label_width-5,label_height-5)
             self.ui.WordCloud.setPixmap(scaled_pix_wordcloud)
-
-#==========================================表單測試程式=====================================================================
-if __name__=="__main__":
-    app=QApplication(sys.argv)
-    form=QmyMainWindow()
-    form.show()
-    sys.exit(app.exec_())
